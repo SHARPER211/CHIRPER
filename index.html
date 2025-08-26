@@ -1,0 +1,134 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Chirper — Coming Soon</title>
+  <meta name="description" content="Chirper is taking flight soon. Hold tight—our nest is almost ready." />
+  <meta property="og:title" content="Chirper — Coming Soon" />
+  <meta property="og:description" content="Chirper is taking flight soon. Our nest is almost ready." />
+  <meta property="og:type" content="website" />
+  <meta name="theme-color" content="#0ea5e9" />
+  <style>
+    :root {
+      --bg: #0b1220;
+      --card: rgba(255,255,255,0.06);
+      --text: #e6f1ff;
+      --muted: #9fb3c8;
+      --accent: #0ea5e9; /* sky-500 */
+      --accent-2: #22d3ee; /* cyan-400 */
+    }
+    @media (prefers-color-scheme: light) {
+      :root { --bg: #f8fafc; --card: #ffffff; --text: #0b1220; --muted: #475569; }
+    }
+    * { box-sizing: border-box; }
+    html, body { height: 100%; }
+    body {
+      margin: 0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+      color: var(--text);
+      background: radial-gradient(1200px 800px at 80% -10%, rgba(34,211,238,0.25), transparent 60%),
+                  radial-gradient(1000px 700px at -10% 110%, rgba(14,165,233,0.25), transparent 60%),
+                  var(--bg);
+      display: grid;
+      place-items: center;
+      padding: 24px;
+    }
+    .card {
+      width: min(680px, 94vw);
+      background: var(--card);
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 24px;
+      padding: 32px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.25);
+      text-align: center;
+    }
+    .logo {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      margin-bottom: 14px;
+      font-weight: 800;
+      letter-spacing: 0.25px;
+      text-transform: uppercase;
+      color: var(--text);
+    }
+    .logo-badge {
+      width: 40px; height: 40px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
+      display: grid; place-items: center;
+      color: white; font-weight: 900;
+    }
+    h1 {
+      margin: 10px 0 8px;
+      font-size: clamp(28px, 4vw, 40px);
+      line-height: 1.1;
+    }
+    p.desc {
+      margin: 0 0 22px;
+      color: var(--muted);
+      font-size: clamp(14px, 2.3vw, 16px);
+    }
+    .badge {
+      display: inline-block;
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: rgba(14,165,233,0.12);
+      color: var(--accent);
+      font-weight: 600;
+      font-size: 12px;
+      border: 1px solid rgba(14,165,233,0.25);
+      margin-bottom: 10px;
+    }
+    .footer {
+      margin-top: 26px;
+      color: var(--muted);
+      font-size: 12px;
+    }
+    .links { display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; }
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+      padding: 10px 14px; border-radius: 12px; text-decoration: none;
+      border: 1px solid rgba(255,255,255,0.14);
+      background: rgba(255,255,255,0.04);
+      color: var(--text);
+      transition: transform .12s ease, background .2s ease, border-color .2s ease;
+    }
+    .btn:hover { transform: translateY(-1px); border-color: rgba(255,255,255,0.28); }
+    .btn.primary {
+      border: none; color: white;
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
+    }
+    .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 1, 1); border: 0; }
+  </style>
+</head>
+<body>
+  <main class="card" role="main">
+    <div class="logo" aria-label="Chirper">
+      <div class="logo-badge" aria-hidden="true">🐦</div>
+      <span>Chirper</span>
+    </div><div class="badge" aria-live="polite">Launching soon</div>
+<h1>We’re getting the nest ready ✨</h1>
+<p class="desc">Chirper is taking flight soon. For now, this page confirms your domain is live and serving from GitHub Pages.</p>
+
+<div class="links" aria-label="Helpful links">
+  <a class="btn primary" href="mailto:hello@chirper.dpdns.org">Contact</a>
+  <a class="btn" href="https://github.com/" target="_blank" rel="noopener">Follow progress</a>
+</div>
+
+<p class="footer">&copy; <span id="y"></span> Chirper. All rights reserved.</p>
+
+  </main>  <script>
+    // Set year
+    document.getElementById('y').textContent = new Date().getFullYear();
+  </script>  <!--
+    How to deploy on GitHub Pages:
+    1) Create a repo (public is simplest). Commit this file as `index.html` to the default branch (usually `main`).
+    2) In Repo → Settings → Pages: Source = Deploy from a branch; Branch = main; Folder = / (root). Save.
+    3) Optional custom domain: add a DNS CNAME for `chirper.dpdns.org` pointing to `<your-username>.github.io`, then set that domain in Settings → Pages → Custom domain.
+  --></body>
+</html>
