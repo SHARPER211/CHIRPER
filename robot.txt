@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://chirper.dpdns.org/sitemap.xml
