@@ -18,7 +18,8 @@ class UserMessage(BaseModel):
     text: str
 
 # --- CONFIGURE THE LLM ---
-GOOGLE_API_KEY = "AQ.Ab8RN6JDqvimwtOuqs-zBCb9v1i0v1Pc-YHBWnmz50lEXvzpzQ" 
+# Your valid AIza key is now securely in the backend!
+GOOGLE_API_KEY = "AIzaSyBVTGLjI2ZTgPoO6NJTNoG4pM7vvdCzo8Q" 
 genai.configure(api_key=GOOGLE_API_KEY)
 
 # This System Prompt traps the LLM in character
