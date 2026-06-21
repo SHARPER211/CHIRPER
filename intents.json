@@ -1,0 +1,19 @@
+{
+  "intents": [
+    {
+      "tag": "greeting",
+      "patterns": ["Hi", "Hello", "Hey", "Good morning", "Is anyone there?"],
+      "responses": ["Hello! I am Chirper, the Ed John IMT interactive assistant. How can I help you today?", "Welcome to the Ed John IMT helpdesk! What do you need assistance with?"]
+    },
+    {
+      "tag": "clearance",
+      "patterns": ["How do I do my clearance?", "Where is the clearance office?", "What documents do I need to clear?", "Clearance procedure"],
+      "responses": ["To process your clearance, please visit the main registry with your printed files, your student ID, and your payment receipts."]
+    },
+    {
+      "tag": "portal_login",
+      "patterns": ["I can't log into my portal", "Forgot portal password", "Portal is locking me out", "How do I reset my student login?"],
+      "responses": ["If you are locked out of the student portal, please send an email to ICT support with your matriculation number, or click the 'Forgot Password' link on the login page."]
+    }
+  ]
+}
