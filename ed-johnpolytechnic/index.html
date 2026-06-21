@@ -1,4 +1,4 @@
-chirper.dpdns.org/ed-johnpolytechnic<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -84,7 +84,7 @@ chirper.dpdns.org/ed-johnpolytechnic<!DOCTYPE html>
             chatWindow.scrollTop = chatWindow.scrollHeight; // Auto-scroll to bottom
         }
 
-       // Handle sending the message to the Python API on Render
+        // Handle sending the message to the Python API on Render
         async function handleSend() {
             const text = userInput.value.trim();
             if (!text) return;
@@ -95,7 +95,7 @@ chirper.dpdns.org/ed-johnpolytechnic<!DOCTYPE html>
 
             // 2. Fetch response from the live Python cloud backend
             try {
-                // Connected directly to your live Render server
+                // Connected directly to your live Render server!
                 const response = await fetch('https://chirper-mypn.onrender.com/api/chat', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
@@ -114,6 +114,7 @@ chirper.dpdns.org/ed-johnpolytechnic<!DOCTYPE html>
                 appendMessage("System Error: Could not connect to the Ed John IMT backend server.", 'bot');
             }
         }
+
         // Event listeners for Click and Enter key
         sendBtn.addEventListener('click', handleSend);
         userInput.addEventListener('keypress', (e) => {
