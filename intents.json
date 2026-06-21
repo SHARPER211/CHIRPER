@@ -2,8 +2,13 @@
   "intents": [
     {
       "tag": "greeting",
-      "patterns": ["Hi", "Hello", "Hey", "Good morning", "Is anyone there?"],
+      "patterns": ["Hi", "Hello", "Hey", "Good morning", "Is anyone there?", "Hey bot"],
       "responses": ["Hello! I am Chirper, the Ed John IMT interactive assistant. How can I help you today?", "Welcome to the Ed John IMT helpdesk! What do you need assistance with?"]
+    },
+    {
+      "tag": "goodbye",
+      "patterns": ["Bye", "Thank you", "Thanks", "See you later", "That helps, thanks"],
+      "responses": ["You're welcome! Have a great day on campus.", "Glad I could help. Let me know if you need anything else!"]
     },
     {
       "tag": "clearance",
@@ -12,8 +17,28 @@
     },
     {
       "tag": "portal_login",
-      "patterns": ["I can't log into my portal", "Forgot portal password", "Portal is locking me out", "How do I reset my student login?"],
+      "patterns": ["I can't log into my portal", "Forgot portal password", "Portal is locking me out", "How do I reset my student login?", "Portal error"],
       "responses": ["If you are locked out of the student portal, please send an email to ICT support with your matriculation number, or click the 'Forgot Password' link on the login page."]
+    },
+    {
+      "tag": "school_fees",
+      "patterns": ["How do I pay my school fees?", "Where is the bursary?", "Payment deadline", "Can I pay in installments?", "Fees structure"],
+      "responses": ["All school fee payments must be generated through your student portal. Once the invoice is generated, you can pay online via Paystack or print it and pay at any designated bank. For installment approvals, please visit the Bursary department."]
+    },
+    {
+      "tag": "admissions",
+      "patterns": ["Is the admission list out?", "How to check admission status", "When will the next list drop?", "Admission letter"],
+      "responses": ["You can check your admission status directly on the Ed John IMT admissions portal. If you have been offered admission, you will be able to print your admission letter from there."]
+    },
+    {
+      "tag": "library",
+      "patterns": ["What time does the library open?", "Library hours", "Can I borrow books?", "Where is the library?"],
+      "responses": ["The campus library is open Monday to Friday from 8:00 AM to 6:00 PM, and Saturdays from 10:00 AM to 2:00 PM. You need your student ID to access the reading rooms and borrow books."]
+    },
+    {
+      "tag": "hostel",
+      "patterns": ["How do I apply for hostel?", "Hostel fees", "Is accommodation available?", "Where are the dorms?"],
+      "responses": ["Hostel accommodations are allocated on a first-come, first-served basis. You can apply for a bed space through your student portal after your tuition fees have been cleared."]
     }
   ]
 }
