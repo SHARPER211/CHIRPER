@@ -1,8 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
-from google import genai
-from google.genai import types
+from groq import Groq
 
 # Initialize the FastAPI app
 app = FastAPI(title="Chirper LLM Backend API")
@@ -19,10 +18,10 @@ class UserMessage(BaseModel):
     text: str
 
 # --- CONFIGURE THE LLM ---
-GOOGLE_API_KEY = "AQ.Ab8RN6LLhsolW3xpGHoQPhzdDppDnXPIU8lgAKQDeDIH6Eu68g" 
+GROQ_API_KEY = "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" 
 
-# Initialize the modern SDK Client
-client = genai.Client(api_key=GOOGLE_API_KEY)
+# Initialize the Groq Client
+client = Groq(api_key=GROQ_API_KEY)
 
 # This System Prompt traps the LLM in character
 system_prompt = """
@@ -40,16 +39,22 @@ If a student asks something completely unrelated to education, campus life, or s
 @app.post("/api/chat")
 async def chat_endpoint(message: UserMessage):
     try:
-        # Generate content using the modern library syntax
-        response = client.models.generate_content(
-            model='gemini-2.5-flash',
-            contents=message.text,
-            config=types.GenerateContentConfig(
-                system_instruction=system_prompt,
-            )
+        # Generate content using the blazing fast Llama 3 model
+        chat_completion = client.chat.completions.create(
+            messages=[
+                {
+                    "role": "system",
+                    "content": system_prompt,
+                },
+                {
+                    "role": "user",
+                    "content": message.text,
+                }
+            ],
+            model="llama3-8b-8192", 
         )
         
-        return {"reply": response.text}
+        return {"reply": chat_completion.choices[0].message.content}
         
     except Exception as e:
         print(f"LLM Error: {e}")
