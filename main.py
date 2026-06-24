@@ -1,7 +1,8 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
-import google.generativeai as genai
+from google import genai
+from google.genai import types
 
 # Initialize the FastAPI app
 app = FastAPI(title="Chirper LLM Backend API")
@@ -18,9 +19,11 @@ class UserMessage(BaseModel):
     text: str
 
 # --- CONFIGURE THE LLM ---
-# Your valid AIza key is now securely in the backend!
-GOOGLE_API_KEY = "AIzaSyBVTGLjI2ZTgPoO6NJTNoG4pM7vvdCzo8Q" 
-genai.configure(api_key=GOOGLE_API_KEY)
+# Your new authentication-format API key is securely placed here
+GOOGLE_API_KEY = "AQ.Ab8RN6LLhsolW3xpGHoQPhzdDppDnXPIU8lgAKQDeDIH6Eu68g" 
+
+# Initialize the modern SDK Client
+client = genai.Client(api_key=GOOGLE_API_KEY)
 
 # This System Prompt traps the LLM in character
 system_prompt = """
@@ -35,16 +38,18 @@ Base campus rules you must know:
 If a student asks something completely unrelated to education, campus life, or school, politely decline to answer and remind them you are an academic assistant. Keep your responses short (1-3 sentences max) so they fit nicely in a chat widget.
 """
 
-# Using the fast, lightweight model perfect for chat
-model = genai.GenerativeModel('gemini-1.5-flash', system_instruction=system_prompt)
-
 @app.post("/api/chat")
 async def chat_endpoint(message: UserMessage):
     try:
-        # Send the user's message to the live Google LLM
-        response = model.generate_content(message.text)
+        # Generate content using the recommended multimodal model
+        response = client.models.generate_content(
+            model='gemini-2.5-flash',
+            contents=message.text,
+            config=types.GenerateContentConfig(
+                system_instruction=system_prompt,
+            )
+        )
         
-        # Return the intelligent response back to your frontend
         return {"reply": response.text}
         
     except Exception as e:
