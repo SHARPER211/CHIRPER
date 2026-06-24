@@ -19,7 +19,6 @@ class UserMessage(BaseModel):
     text: str
 
 # --- CONFIGURE THE LLM ---
-# Your new authentication-format API key is securely placed here
 GOOGLE_API_KEY = "AQ.Ab8RN6LLhsolW3xpGHoQPhzdDppDnXPIU8lgAKQDeDIH6Eu68g" 
 
 # Initialize the modern SDK Client
@@ -41,7 +40,7 @@ If a student asks something completely unrelated to education, campus life, or s
 @app.post("/api/chat")
 async def chat_endpoint(message: UserMessage):
     try:
-        # Generate content using the recommended multimodal model
+        # Generate content using the modern library syntax
         response = client.models.generate_content(
             model='gemini-2.5-flash',
             contents=message.text,
