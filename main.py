@@ -1,3 +1,4 @@
+import os  # <-- This new import lets Python read hidden files
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
@@ -17,8 +18,9 @@ app.add_middleware(
 class UserMessage(BaseModel):
     text: str
 
-# --- CONFIGURE THE LLM ---
-GROQ_API_KEY = "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" 
+# --- CONFIGURE THE LLM SECURELY ---
+# This pulls the key directly from Render's secret vault!
+GROQ_API_KEY = os.getenv("GROQ_API_KEY") 
 
 # Initialize the Groq Client
 client = Groq(api_key=GROQ_API_KEY)
