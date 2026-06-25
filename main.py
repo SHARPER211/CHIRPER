@@ -1,4 +1,4 @@
-import os  # <-- This new import lets Python read hidden files
+import os 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
@@ -19,7 +19,6 @@ class UserMessage(BaseModel):
     text: str
 
 # --- CONFIGURE THE LLM SECURELY ---
-# This pulls the key directly from Render's secret vault!
 GROQ_API_KEY = os.getenv("GROQ_API_KEY") 
 
 # Initialize the Groq Client
@@ -41,7 +40,7 @@ If a student asks something completely unrelated to education, campus life, or s
 @app.post("/api/chat")
 async def chat_endpoint(message: UserMessage):
     try:
-        # Generate content using the blazing fast Llama 3 model
+        # Generate content using Groq's active model
         chat_completion = client.chat.completions.create(
             messages=[
                 {
@@ -53,7 +52,7 @@ async def chat_endpoint(message: UserMessage):
                     "content": message.text,
                 }
             ],
-            model="llama3-8b-8192", 
+            model="llama-3.1-8b-instant", 
         )
         
         return {"reply": chat_completion.choices[0].message.content}
