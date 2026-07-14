@@ -39,6 +39,16 @@
         #user-input { flex: 1; padding: 10px; border-radius: 20px; border: none; background-color: #444; color: white; outline: none; }
         #user-input::placeholder { color: #aaa; }
         #send-btn { background-color: transparent; border: none; color: #4CAF50; font-weight: bold; margin-left: 10px; cursor: pointer; }
+
+        /* --- TYPING INDICATOR --- */
+        .typing-bubble { display: flex; align-items: center; gap: 4px; padding: 10px 14px; }
+        .typing-bubble .dot { width: 6px; height: 6px; background: #aaa; border-radius: 50%; animation: typing-bounce 1.2s infinite ease-in-out; }
+        .typing-bubble .dot:nth-child(2) { animation-delay: 0.2s; }
+        .typing-bubble .dot:nth-child(3) { animation-delay: 0.4s; }
+        @keyframes typing-bounce {
+            0%, 60%, 100% { transform: translateY(0); opacity: 0.5; }
+            30% { transform: translateY(-4px); opacity: 1; }
+        }
     </style>
 </head>
 <body>
@@ -117,12 +127,28 @@
             chatWindow.scrollTop = chatWindow.scrollHeight;
         }
 
+        function showTypingIndicator() {
+            const typingDiv = document.createElement('div');
+            typingDiv.classList.add('message', 'bot-message', 'typing-bubble');
+            typingDiv.id = 'typing-indicator';
+            typingDiv.innerHTML = '<span class="dot"></span><span class="dot"></span><span class="dot"></span>';
+            chatWindow.appendChild(typingDiv);
+            chatWindow.scrollTop = chatWindow.scrollHeight;
+        }
+
+        function removeTypingIndicator() {
+            const typingDiv = document.getElementById('typing-indicator');
+            if (typingDiv) typingDiv.remove();
+        }
+
         async function handleSend() {
             const text = userInput.value.trim();
             if (!text) return;
 
             appendMessage(text, 'user');
             userInput.value = '';
+
+            showTypingIndicator();
 
             try {
                 // Connected directly to your new, active live Render server!
@@ -135,10 +161,13 @@
                 if (!response.ok) throw new Error("Network response was not ok");
                 
                 const data = await response.json();
+
+                removeTypingIndicator();
                 appendMessage(data.reply, 'bot');
 
             } catch (error) {
                 console.error("API Error:", error);
+                removeTypingIndicator();
                 appendMessage("System Error: Could not connect to the Ed John IMT backend server.", 'bot');
             }
         }
@@ -150,4 +179,4 @@
     </script>
 
 </body>
-                </html>
+</html>
