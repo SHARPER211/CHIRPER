@@ -132,7 +132,7 @@ async def chat_endpoint(message: UserMessage):
                     "content": message.text,
                 }
             ],
-            model="llama-3.1-8b-instant",
+            model="openai/gpt-oss-20b",
         )
 
         return {"reply": chat_completion.choices[0].message.content}
