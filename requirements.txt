@@ -7,3 +7,4 @@ google-genai
 requests
 torch
 torchaudio
+python-docx
