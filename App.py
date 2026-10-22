@@ -1,6 +1,6 @@
 import streamlit as st
 from google import genai
-import docx  # For MS Word export
+import docx
 import io
 
 # Page Config
@@ -9,7 +9,7 @@ st.set_page_config(page_title="SharpsharpNaija", page_icon="🎬", layout="cente
 st.title("🎬 SharpsharpNaija")
 st.markdown("### *No dulling. Fast, automated subtitling and Premiere Pro packaging for Nollywood.*")
 
-# Securely grab the AQ. key from Streamlit secrets
+# Securely grab the API key from Streamlit secrets
 api_key = st.secrets.get("GEMINI_API_KEY", "")
 
 if not api_key:
@@ -21,7 +21,7 @@ else:
     if uploaded_file is not None:
         st.audio(uploaded_file)
         
-        # 2. Export Format Selector (Your custom requirement)
+        # 2. Export Format Selector
         st.markdown("### Choose Output Format")
         output_format = st.selectbox(
             "Select how you want your delivery package:",
@@ -32,22 +32,35 @@ else:
             ]
         )
         
-        # 3. Optional Custom Style Note (Future proofing for your description idea)
+        # 3. Custom Style / Director Notes
         custom_instructions = st.text_input(
             "Custom Style / Director Notes (Optional):", 
-            placeholder="e.g., Keep street slang raw, or make subtitles formal..."
+            placeholder="e.g., Keep street slang raw, or translate Yorùbá dialogue to English..."
         )
 
         if st.button("Generate Sharpsharp Output"):
-            with st.spinner("SharpsharpNaija engine is processing audio & translating..."):
+            with st.spinner("SharpsharpNaija engine is listening to audio & translating..."):
                 try:
+                    # Save uploaded file temporarily for Gemini API processing
+                    audio_bytes = uploaded_file.read()
+                    
                     # Initialize Gemini client
                     client = genai.Client(api_key=api_key)
                     
-                    prompt = f"Translate sample Nigerian dialogue 'Ẹ kàárọ̀ o, oga' to English. User style note: {custom_instructions}"
+                    # Upload the audio file directly to Gemini API
+                    audio_file_ref = client.files.upload(
+                        file=io.BytesIO(audio_bytes),
+                        config={'display_name': uploaded_file.name}
+                    )
+                    
+                    prompt = f"""
+                    Listen to this audio track. Transcribe any spoken Yorùbá or Nigerian languages and provide a clean English translation suitable for movie subtitles.
+                    Director Notes / Style: {custom_instructions}
+                    """
+                    
                     response = client.models.generate_content(
                         model="gemini-3.5-flash",
-                        contents=prompt
+                        contents=[audio_file_ref, prompt]
                     )
                     
                     translated_text = response.text
@@ -58,7 +71,6 @@ else:
                         st.subheader("📄 MS Word Translation Preview")
                         st.write(translated_text)
                         
-                        # Generate Word Document in memory
                         doc = docx.Document()
                         doc.add_heading("SharpsharpNaija Translation Script", 0)
                         doc.add_paragraph(translated_text)
@@ -76,7 +88,7 @@ else:
                         
                     elif ".srt" in output_format:
                         st.subheader("⏱️ SRT Subtitle Preview")
-                        srt_mock = f"1\n00:00:01,000 --> 00:00:04,000\n{translated_text}"
+                        srt_mock = f"1\n00:00:01,000 --> 00:00:05,000\n{translated_text}"
                         st.text(srt_mock)
                         
                         st.download_button(
@@ -88,9 +100,9 @@ else:
                         
                     else:
                         st.subheader("🎞️ Premiere Pro XML Package Preview")
-                        st.info("XML sequence generator loaded. Ready to compile timeline data.")
-                        
                         xml_mock = "<xmeml version='4'><sequence>Mock Premiere Package</sequence></xmeml>"
+                        st.text(xml_mock)
+                        
                         st.download_button(
                             label="📥 Download Premiere Pro Package (.xml)",
                             data=xml_mock,
@@ -99,4 +111,4 @@ else:
                         )
                     
                 except Exception as e:
-                    st.error(f"An error occurred: {e}")
+                    st.error(f"An error occurred during translation: {e}")
