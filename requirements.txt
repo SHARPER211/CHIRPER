@@ -2,3 +2,8 @@ fastapi
 uvicorn
 pydantic
 groq
+streamlit
+google-genai
+requests
+torch
+torchaudio
