@@ -4,7 +4,7 @@ import docx
 import io
 import tempfile
 import os
-from moviepy.editor import VideoFileClip
+from moviepy import VideoFileClip
 
 # Page Config
 st.set_page_config(page_title="SharpsharpNaija", page_icon="🎬", layout="centered")
