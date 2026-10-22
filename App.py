@@ -16,7 +16,7 @@ if not api_key:
     st.error("⚠️ GEMINI_API_KEY is missing! Please add it to your Streamlit App Secrets.")
 else:
     # 1. File Upload
-    uploaded_file = st.file_uploader("Upload Audio Track (.mp3, .aac, .wav)", type=["mp3", "aac", "wav"])
+    uploaded_file = st.file_uploader("Upload Audio Track (.mp3, .aac, .wav)", type=["mp3", "aac", "wav", "m4a"])
 
     if uploaded_file is not None:
         st.audio(uploaded_file)
@@ -41,20 +41,23 @@ else:
         if st.button("Generate Sharpsharp Output"):
             with st.spinner("SharpsharpNaija engine is listening to audio & translating..."):
                 try:
-                    # Save uploaded file temporarily for Gemini API processing
                     audio_bytes = uploaded_file.read()
+                    file_mime = uploaded_file.type if uploaded_file.type else "audio/mp3"
                     
                     # Initialize Gemini client
                     client = genai.Client(api_key=api_key)
                     
-                    # Upload the audio file directly to Gemini API
+                    # Upload with explicit mime_type
                     audio_file_ref = client.files.upload(
                         file=io.BytesIO(audio_bytes),
-                        config={'display_name': uploaded_file.name}
+                        config={
+                            'display_name': uploaded_file.name,
+                            'mime_type': file_mime
+                        }
                     )
                     
                     prompt = f"""
-                    Listen to this audio track. Transcribe any spoken Yorùbá or Nigerian languages and provide a clean English translation suitable for movie subtitles.
+                    Listen to this audio track. Transcribe any spoken Yorùbá, Nigerian Pidgin, or English and provide a clean English translation suitable for professional movie subtitles.
                     Director Notes / Style: {custom_instructions}
                     """
                     
