@@ -9,3 +9,6 @@ torch
 torchaudio
 python-docx
 moviepy
+streamlit
+python-docx
+pandas
