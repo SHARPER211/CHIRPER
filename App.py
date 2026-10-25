@@ -3,6 +3,10 @@ import os
 import io
 import zipfile
 from pathlib import Path
+import requests
+
+# --- KAGGLE BACKEND URL ---
+API_BASE_URL = "https://rich-phones-mix.loca.lt"
 
 # --- PAGE CONFIGURATION ---
 st.set_page_config(
@@ -84,9 +88,30 @@ with tab_main:
             st.success(f"Draft Script Loaded: {script_asset.name}")
         
         if st.button("✨ Generate Broadcast Subtitles"):
-            with st.spinner("Executing VAD audio alignment, formatting cultural glosses, and locking Premiere timecodes..."):
-                import time
-                time.sleep(3.0)
+            with st.spinner("Executing VAD audio alignment, routing to Kaggle GPU, and locking Premiere timecodes..."):
+                
+                # --- ACTUAL BACKEND API CALL ---
+                if video_asset is not None:
+                    try:
+                        # Package the file for the POST request
+                        files = {"file": (video_asset.name, video_asset.getvalue(), video_asset.type)}
+                        
+                        # Send the audio to your active localtunnel endpoint
+                        response = requests.post(
+                            f"{API_BASE_URL}/translate",
+                            files=files,
+                            timeout=300 # 5-minute timeout to allow the GPU time to process
+                        )
+                        response.raise_for_status()
+                        
+                        st.success("API Translation Complete!")
+                        st.write(response.json()) # Display the raw JSON from backend
+                        
+                    except requests.exceptions.RequestException as e:
+                        st.error(f"Error connecting to the Kaggle backend: {e}")
+                else:
+                    import time
+                    time.sleep(3.0)
                 
             st.markdown("### 🎉 Localization Complete!")
             st.success("Your world-class subtitle package has been successfully compiled.")
