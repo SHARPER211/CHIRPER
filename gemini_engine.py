@@ -71,12 +71,13 @@ def translate_subtitles(asr_chunks, show_bible):
     """
     
     model = genai.GenerativeModel(
-        model_name='gemini-1.5-pro',
+        model_name='gemini-3.5 flash-lite',
         system_instruction=system_instruction
     )
     
     # We pass the chunks as a stringified JSON to Gemini
-    prompt = f"Here are the ASR chunks to translate:\n{json.dumps(asr_chunks)}"
+    prompt = f"Here are the ASR chunks to translate:\
+    n{json.dumps(asr_chunks)}"
     
     response = model.generate_content(prompt)
     
