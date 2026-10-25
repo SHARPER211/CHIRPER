@@ -12,3 +12,6 @@ moviepy
 streamlit
 python-docx
 pandas
+faster-whisper
+google-generativeai
+modal
